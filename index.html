@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Terintegrasi Cafe Mini - Premium Rev</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
@@ -24,18 +23,27 @@
                 left: 0 !important; 
                 top: 0 !important; 
                 width: 100% !important; 
-                padding: 10px !important;
+                padding: 20px !important;
             }
             .flex-space {
                 display: flex !important;
                 justify-content: space-between !important;
+            }
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            th, td {
+                border: 1px solid #000000 !important;
+                padding: 6px !important;
+                color: #000000 !important;
+                text-align: left !important;
             }
         }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans antialiased min-h-screen">
 
-    <!-- TOP NAVIGATION BAR -->
     <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl">
         <div class="flex items-center space-x-3">
             <div class="bg-amber-500 text-gray-900 p-2 rounded-lg font-bold flex items-center justify-center">
@@ -60,10 +68,8 @@
         </div>
     </nav>
 
-    <!-- CONTAINER UTAMA -->
     <main class="max-w-7xl mx-auto p-4 md:p-6">
 
-        <!-- ================= FORM LOGIN DYNAMIC ================= -->
         <section id="auth-section" class="max-w-md mx-auto bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-2xl my-12">
             <div class="text-center mb-6">
                 <div id="auth-icon" class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto text-2xl mb-3">
@@ -87,30 +93,37 @@
             </div>
         </section>
 
-        <!-- ================= PANEL 1: DASHBOARD MANAJEMEN ================= -->
         <section id="panel-manajemen" class="hidden max-w-5xl mx-auto space-y-6">
             <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg">
-                <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-700 pb-4 mb-6">
                     <h2 class="text-lg font-bold text-amber-400 flex items-center">
                         <i class="fas fa-sliders-h mr-2"></i> Pengaturan Harga & Stok Produk Utama
                     </h2>
-                    <button onclick="logout()" class="bg-red-900/40 hover:bg-red-900 border border-red-700 text-red-200 text-xs font-bold py-1.5 px-3 rounded-lg transition">Keluar</button>
+                    
+                    <div class="flex items-center space-x-2 bg-gray-950 p-2 rounded-xl border border-gray-700 w-full sm:w-auto">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tanggal Input:</span>
+                        <input type="date" id="m-tanggal-input" class="bg-gray-800 text-xs border border-gray-600 rounded-lg p-1.5 focus:outline-none focus:border-amber-500 text-white">
+                    </div>
+
+                    <button onclick="logout()" class="bg-red-900/40 hover:bg-red-900 border border-red-700 text-red-200 text-xs font-bold py-1.5 px-3 rounded-lg transition self-end sm:self-auto">Keluar</button>
                 </div>
 
                 <form onsubmit="simpanProdukUtama(event)" class="space-y-6">
                     <div id="container-inputs-utama" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Di-render via JS -->
+                        </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                            <i class="fas fa-save mr-2"></i>Simpan Perubahan Produk Utama
+                        </button>
+                        <button type="button" onclick="cetakPDFManajemen()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                            <i class="fas fa-file-pdf mr-2"></i>Cetak PDF Hasil Input Stok
+                        </button>
                     </div>
-                    <!-- Tombol Berada di Paling Bawah Form Pengaturan -->
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg">
-                        <i class="fas fa-save mr-2"></i>Simpan Perubahan Produk Utama
-                    </button>
                 </form>
             </div>
 
-            <!-- Tambah Item Baru & Registrasi Ledis -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Form Input Item Baru -->
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg">
                     <h3 class="text-sm font-bold text-amber-400 mb-3 flex items-center"><i class="fas fa-plus-circle mr-2"></i> Input Item Baru</h3>
                     <div class="space-y-3">
@@ -121,7 +134,6 @@
                     </div>
                 </div>
 
-                <!-- Manajemen Nama & Harga Ledis -->
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-lg">
                     <h3 class="text-sm font-bold text-pink-400 mb-3 flex items-center"><i class="fas fa-users-viewfinder mr-2"></i> Registrasi Ledis</h3>
                     <div class="space-y-3">
@@ -132,7 +144,6 @@
                 </div>
             </div>
 
-            <!-- VIEW DATABASE - MONITOR & HAPUS DATA SALAH INPUT -->
             <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg space-y-6">
                 <div>
                     <h3 class="text-md font-bold text-amber-400 mb-3 flex items-center"><i class="fas fa-database mr-2"></i> Monitor & Hapus Data Item/Produk Tersimpan</h3>
@@ -148,8 +159,7 @@
                                 </tr>
                             </thead>
                             <tbody id="m-table-produk" class="divide-y divide-gray-700">
-                                <!-- Diisi via JS -->
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -167,14 +177,11 @@
                                 <tr class="bg-gray-900/60 border-b border-gray-700 text-gray-400 uppercase tracking-wider">
                                     <th class="py-2 px-3">Nama Ledis</th>
                                     <th class="py-2 px-3">Harga Sewa / Jam</th>
-                                    <th class="py-2 px-3">Status Saat Ini</th>
-                                    <th class="py-2 px-3">Total Kerja (Hari Ini)</th>
                                     <th class="py-2 px-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="m-table-ledis" class="divide-y divide-gray-700">
-                                <!-- Diisi via JS -->
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -182,9 +189,7 @@
         </section>
 
 
-        <!-- ================= PANEL 2: DASHBOARD KASIR ================= -->
         <section id="panel-kasir" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Sisi Kiri: Menu Pilih Item -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg">
                     <h2 class="text-lg font-bold text-amber-400 mb-4 flex items-center justify-between">
@@ -192,19 +197,16 @@
                         <button onclick="logout()" class="bg-red-900/40 hover:bg-red-900 border border-red-700 text-red-200 text-xs font-bold py-1 px-2 rounded-lg transition">Keluar</button>
                     </h2>
                     <div id="kasir-menu-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        <!-- Items di-render via JS -->
-                    </div>
+                        </div>
                 </div>
 
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg">
                     <h2 class="text-md font-bold text-pink-400 mb-4 flex items-center"><i class="fas fa-venus mr-2"></i> Pilih Pendamping Ledis</h2>
                     <div id="kasir-ledis-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <!-- Ledis di-render via JS -->
-                    </div>
+                        </div>
                 </div>
             </div>
 
-            <!-- Sisi Kanan: Keranjang & Pembayaran -->
             <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg flex flex-col justify-between h-fit space-y-6">
                 <div>
                     <div class="flex justify-between items-center border-b border-gray-700 pb-2 mb-4">
@@ -241,7 +243,6 @@
         </section>
 
 
-        <!-- ================= PANEL 3: DASHBOARD PEMILIK ================= -->
         <section id="panel-pemilik" class="hidden space-y-6">
             <div class="flex justify-between items-center bg-gray-800 p-4 border border-gray-700 rounded-2xl">
                 <h2 class="text-lg font-bold text-amber-400 flex items-center"><i class="fas fa-chart-bar mr-2"></i> Pemantauan Real-time Pemilik Usaha</h2>
@@ -273,34 +274,43 @@
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-5 shadow-md flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Ketersediaan Ledis</p>
-                        <h3 id="p-ledis-status" class="text-sm sm:text-lg font-black text-pink-400 mt-1">0 Ready</h3>
+                        <h3 id="p-ledis-status" class="text-sm sm:text-lg font-black text-pink-400 mt-1">0 Terdaftar</h3>
                     </div>
                     <div class="bg-pink-500/10 text-pink-400 p-3 rounded-xl text-xl hidden sm:block"><i class="fas fa-venus"></i></div>
                 </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="resetHanyaRingkasanKinerja()" class="text-xs bg-red-950/80 border border-red-800 text-red-300 px-4 py-2 rounded-xl hover:bg-red-900 transition font-bold shadow shadow-red-950">
+                    <i class="fas fa-exclamation-triangle mr-1"></i> Reset Total Ringkasan & Kinerja Ledis
+                </button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg lg:col-span-1">
                     <h3 class="text-md font-bold text-amber-400 mb-4 flex items-center"><i class="fas fa-boxes-stacked mr-2"></i> Kontrol Stok Item</h3>
                     <div class="overflow-y-auto max-h-[350px] divide-y divide-gray-700" id="p-stok-list">
-                        <!-- List stok via JS -->
-                    </div>
+                        </div>
                 </div>
 
                 <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg lg:col-span-2">
-                    <h3 class="text-md font-bold text-pink-400 mb-4 flex items-center"><i class="fas fa-venus-mars mr-2"></i> Monitoring Kinerja Per-Ledis</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                        <h3 class="text-md font-bold text-pink-400 flex items-center"><i class="fas fa-venus-mars mr-2"></i> Monitoring Kinerja Per-Ledis</h3>
+                        <button onclick="cetakPDFKinerjaLedis()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-1.5 px-3 rounded-xl transition shadow">
+                            <i class="fas fa-file-pdf mr-1"></i> Cetak PDF Kinerja Ledis
+                        </button>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
                             <thead>
                                 <tr class="border-b border-gray-700 text-xs text-gray-400 bg-gray-900/40">
                                     <th class="py-2 px-3">Nama Ledis</th>
-                                    <th class="py-2 px-3">Total Dampingi</th>
+                                    <th class="py-2 px-3 text-center">Total Dampingi (Dari Transaksi)</th>
                                     <th class="py-2 px-3">Produk Yang Dipesan Saat Didampingi</th>
                                 </tr>
                             </thead>
                             <tbody id="p-ledis-table" class="divide-y divide-gray-700">
-                                <!-- Data via JS -->
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -309,7 +319,9 @@
             <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-lg">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-md font-bold text-amber-400 flex items-center"><i class="fas fa-history mr-2"></i> Log Semua Penjualan</h3>
-                    <button onclick="resetSemuaDataUsaha()" class="text-xs border border-red-900 text-red-400 px-3 py-1 rounded hover:bg-red-900 hover:text-white transition">Hapus Histori</button>
+                    <button onclick="resetHanyaLogHistoriPenjualan()" class="text-xs bg-gray-900 border border-red-900 text-red-400 px-3 py-1.5 rounded-xl hover:bg-red-900 hover:text-white transition font-bold">
+                        <i class="fas fa-trash-alt mr-1"></i> Hapus Histori Log Penjualan
+                    </button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
@@ -323,8 +335,7 @@
                             </tr>
                         </thead>
                         <tbody id="p-transaksi-log" class="divide-y divide-gray-700">
-                            <!-- Data via JS -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -332,12 +343,8 @@
 
     </main>
 
-    <!-- CONTAINER STRUK (DISEMBUNYIKAN DI LAYAR, AKAN DI-RENDER JELAS SAAT DI-PRINT/PDF) -->
-    <div id="area-cetak-struk" style="display: none; font-family: monospace; font-size: 12px; width: 280px; color: black; background: white;">
-        <!-- Konten struk dinamis -->
-    </div>
+    <div id="area-cetak-struk" style="display: none; color: black; background: white;"></div>
 
-    <!-- LOGIKA JAVASCRIPT UTAMA -->
     <script>
         const credentials = {
             manajemen: { user: 'admin1', pass: 'mebali' },
@@ -357,23 +364,35 @@
 
         let database_produk = JSON.parse(localStorage.getItem('cafe_db_produk')) || produkUtamaDefault;
         let database_ledis = JSON.parse(localStorage.getItem('cafe_db_ledis')) || [
-            { nama: 'Sinta', harga: 100000, status: 'ready', counter: 0, itemsDipesan: [] },
-            { nama: 'Bella', harga: 100000, status: 'ready', counter: 0, itemsDipesan: [] }
+            { nama: 'Sinta', harga: 100000 },
+            { nama: 'Bella', harga: 100000 }
         ];
         let database_transaksi = JSON.parse(localStorage.getItem('cafe_db_transaksi')) || [];
+
+        // Penampung Akumulasi Statistik Mandiri (Agar tidak hilang saat log transaksi dihapus)
+        let stats_pemilik = JSON.parse(localStorage.getItem('cafe_stats_pemilik')) || {
+            omzet: 0,
+            transaksiCount: 0,
+            pelangganCount: 0
+        };
 
         let currentActivePanel = null;
         let keranjangBelanja = [];
         let formUtamaSudahRender = false; 
 
-        // Fungsi pembantu untuk otomatis upload data ke Cloud Firebase
+        // Atur input tanggal ke hari ini secara default
+        document.getElementById('m-tanggal-input').valueAsDate = new Date();
+
         function syncKeCloud() {
-            if (window.simpanAktivitasKeCloud) {
+            if (typeof window.simpanAktivitasKeCloud === 'function') {
                 window.simpanAktivitasKeCloud("data_cafe_lempe", {
                     produk: database_produk,
                     ledis: database_ledis,
-                    transaksi: database_transaksi
+                    transaksi: database_transaksi,
+                    stats: stats_pemilik
                 });
+            } else {
+                console.warn("Firebase Cloud belum siap sepenuhnya. Data tetap tersimpan secara lokal.");
             }
         }
 
@@ -427,11 +446,10 @@
             switchPanel(currentActivePanel);
         }
 
-        // ================= DASHBOARD MANAJEMEN =================
+        // ================= MANAGEMENT CODE =================
         function renderManajemenInputs() {
             const container = document.getElementById('container-inputs-utama');
             container.innerHTML = '';
-            
             database_produk.forEach((prod) => {
                 if(prod.kategori === 'utama') {
                     const html = `
@@ -481,8 +499,6 @@
                         <td class="py-2 px-3">
                             <input type="number" data-ledis-name="${ledis.nama}" value="${ledis.harga || 0}" class="bg-gray-900 border border-gray-600 rounded px-2 py-0.5 text-xs text-emerald-400 w-28 font-bold focus:outline-none focus:border-amber-500">
                         </td>
-                        <td class="py-2 px-3 uppercase text-[10px] text-gray-400">${ledis.status}</td>
-                        <td class="py-2 px-3 text-center text-gray-300">${ledis.counter} Kali</td>
                         <td class="py-2 px-3 text-center">
                             <button onclick="hapusLedisDariManajemen('${ledis.nama}')" class="bg-red-900/60 hover:bg-red-700 text-red-200 px-2 py-1 rounded text-[10px] transition cursor-pointer">
                                 <i class="fas fa-trash-alt mr-1"></i> Hapus
@@ -500,7 +516,6 @@
                 const id = input.getAttribute('data-id');
                 const dataType = input.getAttribute('data-type');
                 const val = parseInt(input.value) || 0;
-                
                 let item = database_produk.find(p => p.id === id);
                 if (item) item[dataType] = val;
             });
@@ -518,16 +533,13 @@
             if(!nama || harga <= 0) return alert('Lengkapi data item baru dengan benar!');
 
             const newId = 'kustom_' + Date.now();
-            const icon = 'fa-box-open';
-            
-            database_produk.push({ id: newId, nama: nama, harga: harga, stok: stok, kategori: 'tambahan', icon: icon });
+            database_produk.push({ id: newId, nama: nama, harga: harga, stok: stok, kategori: 'tambahan', icon: 'fa-box-open' });
             localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
             syncKeCloud();
             
             document.getElementById(`m-${tipe}-nama`).value = '';
             document.getElementById(`m-${tipe}-harga`).value = '';
             document.getElementById(`m-${tipe}-stok`).value = '';
-            
             renderManajemenTables();
             alert(`Berhasil menambah item: ${nama}`);
         }
@@ -537,14 +549,14 @@
             const harga = parseInt(document.getElementById('m-ledis-harga').value) || 0;
             if (!nama) return alert('Ketik nama ledis!');
             
-            database_ledis.push({ nama: nama, harga: harga, status: 'ready', counter: 0, itemsDipesan: [] });
+            database_ledis.push({ nama: nama, harga: harga });
             localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
             syncKeCloud();
             
             document.getElementById('m-ledis-nama').value = '';
             document.getElementById('m-ledis-harga').value = '';
             renderManajemenTables();
-            alert(`Ledis ${nama} dengan tarif Rp ${harga.toLocaleString()}/Jam berhasil terdaftar.`);
+            alert(`Ledis ${nama} berhasil terdaftar.`);
         }
 
         function simpanPerubahanHargaLedis() {
@@ -552,17 +564,16 @@
             inputs.forEach(input => {
                 const namaLedis = input.getAttribute('data-ledis-name');
                 const hargaBaru = parseInt(input.value) || 0;
-                
                 let ledis = database_ledis.find(l => l.nama === namaLedis);
                 if(ledis) ledis.harga = hargaBaru;
             });
             localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
             syncKeCloud();
-            alert('Perubahan tarif sewa seluruh ledis berhasil disimpan!');
+            alert('Perubahan tarif sewa ledis berhasil disimpan!');
         }
 
         function hapusProdukDariManajemen(id) {
-            if(confirm('Apakah Anda yakin ingin menghapus produk/item ini dari sistem?')) {
+            if(confirm('Apakah Anda yakin menghapus produk ini?')) {
                 database_produk = database_produk.filter(p => p.id !== id);
                 localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
                 syncKeCloud();
@@ -571,7 +582,7 @@
         }
 
         function hapusLedisDariManajemen(nama) {
-            if(confirm(`Apakah Anda yakin ingin menghapus data ledis ${nama}?`)) {
+            if(confirm(`Apakah Anda yakin menghapus data ledis ${nama}?`)) {
                 database_ledis = database_ledis.filter(l => l.nama !== nama);
                 localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
                 syncKeCloud();
@@ -579,12 +590,53 @@
             }
         }
 
+        // ================= FITUR CETAK PDF MANAJEMEN =================
+        function cetakPDFManajemen() {
+            const tglVal = document.getElementById('m-tanggal-input').value;
+            let barisHtml = '';
+            database_produk.forEach(p => {
+                barisHtml += `
+                    <tr>
+                        <td style="text-transform:uppercase; font-size:10px;">${p.kategori}</td>
+                        <td><b>${p.nama}</b></td>
+                        <td>Rp ${p.harga.toLocaleString()}</td>
+                        <td>${p.stok} Unit</td>
+                    </tr>`;
+            });
 
-        // ================= DASHBOARD KASIR =================
+            const areaCetak = document.getElementById('area-cetak-struk');
+            areaCetak.innerHTML = `
+                <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid #000; padding-bottom:10px;">
+                    <h2 style="margin:0; font-size:18px;">CAFE MINI LEMPE</h2>
+                    <p style="margin:4px 0 0 0; font-size:12px;">MANIFEST DATA STOK & HARGA PRODUK</p>
+                </div>
+                <p style="font-size:12px;"><b>Hari / Tanggal Penginputan:</b> ${tglVal ? tglVal : '-'}</p>
+                <table style="width:100%; border:1px solid #000; font-size:12px; margin-top:10px;">
+                    <thead>
+                        <tr style="background:#eeeeee;">
+                            <th style="padding:6px; border:1px solid #000;">KATEGORI</th>
+                            <th style="padding:6px; border:1px solid #000;">NAMA ITEM</th>
+                            <th style="padding:6px; border:1px solid #000;">HARGA JUAL</th>
+                            <th style="padding:6px; border:1px solid #000;">STOK GUDANG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${barisHtml}
+                    </tbody>
+                </table>
+                <div style="margin-top:40px; text-align:right; font-size:12px;">
+                    <p>Sorong, ${new Date().toLocaleDateString('id-ID')}</p>
+                    <br><br><br>
+                    <p><b>( Bagian Manajemen )</b></p>
+                </div>
+            `;
+            setTimeout(() => { window.print(); }, 150);
+        }
+
+        // ================= KASIR & BILLING CODE =================
         function renderKasirMenu() {
             const container = document.getElementById('kasir-menu-container');
             container.innerHTML = '';
-
             database_produk.forEach(prod => {
                 const html = `
                     <button onclick="klikTambahKeKeranjang('${prod.id}')" class="bg-gray-700/50 hover:bg-gray-700 border border-gray-600 p-3 rounded-xl transition text-left flex flex-col justify-between cursor-pointer">
@@ -641,7 +693,7 @@
 
             keranjangBelanja.push({ 
                 id: ledisData.nama, 
-                nama: `Ledis: ${ledisData.nama} (Sewa Room)`, 
+                nama: `Ledis: ${ledisData.nama}`, 
                 harga: ledisData.harga || 0, 
                 qty: 1, 
                 tipe: 'ledis' 
@@ -679,13 +731,6 @@
                 const sub = item.harga * item.qty;
                 total += sub;
                 
-                const controls = `
-                    <div class="flex items-center space-x-1.5">
-                        <button onclick="ubahQtyKeranjang('${item.id}', -1)" class="bg-gray-700 hover:bg-gray-600 w-5 h-5 rounded text-xs font-bold cursor-pointer">-</button>
-                        <span class="text-xs font-bold px-1">${item.qty}${item.tipe === 'ledis' ? ' Jam' : ''}</span>
-                        <button onclick="ubahQtyKeranjang('${item.id}', 1)" class="bg-gray-700 hover:bg-gray-600 w-5 h-5 rounded text-xs font-bold cursor-pointer">+</button>
-                    </div>`;
-
                 const html = `
                     <div class="bg-gray-900/80 p-2.5 rounded-xl border border-gray-700 flex justify-between items-center text-xs">
                         <div>
@@ -693,7 +738,11 @@
                             <span class="text-[10px] text-gray-400">@ Rp ${item.harga.toLocaleString()}</span>
                         </div>
                         <div class="flex items-center space-x-3">
-                            ${controls}
+                            <div class="flex items-center space-x-1.5">
+                                <button onclick="ubahQtyKeranjang('${item.id}', -1)" class="bg-gray-700 hover:bg-gray-600 w-5 h-5 rounded text-xs font-bold cursor-pointer">-</button>
+                                <span class="text-xs font-bold px-1">${item.qty}${item.tipe === 'ledis' ? ' Jam' : ''}</span>
+                                <button onclick="ubahQtyKeranjang('${item.id}', 1)" class="bg-gray-700 hover:bg-gray-600 w-5 h-5 rounded text-xs font-bold cursor-pointer">+</button>
+                            </div>
                             <span class="font-extrabold text-amber-400 text-right w-16">Rp ${sub.toLocaleString()}</span>
                         </div>
                     </div>`;
@@ -721,6 +770,7 @@
 
             const salinanKeranjang = JSON.parse(JSON.stringify(keranjangBelanja));
 
+            // Hitung total belanja & pengurangan stok gudang
             keranjangBelanja.forEach(item => {
                 totalAkhir += (item.harga * item.qty);
                 if(item.tipe === 'barang') {
@@ -729,11 +779,6 @@
                     if(targetDb) targetDb.stok -= item.qty; 
                 } else if(item.tipe === 'ledis') {
                     listLedisDipilih.push(`${item.id} (${item.qty} Jam)`);
-                    let ledis = database_ledis.find(l => l.nama === item.id);
-                    if(ledis) {
-                        ledis.counter += 1;
-                        listBarangDipesan.forEach(b => ledis.itemsDipesan.push(b));
-                    }
                 }
             });
 
@@ -741,26 +786,39 @@
             const dataTransaksiBaru = {
                 waktu: waktuSelesai,
                 pelanggan: namaPelanggan,
-                detail: listBarangDipesan.join(', '),
+                detail: listBarangDipesan.length > 0 ? listBarangDipesan.join(', ') : '-',
                 ledis: listLedisDipilih.length > 0 ? listLedisDipilih.join(', ') : '-',
                 total: totalAkhir
             };
 
+            // Tambahkan data ke log riwayat transaksi
             database_transaksi.push(dataTransaksiBaru);
 
+            // Tambahkan juga ke variabel statistik mandiri (agar terproteksi saat log dihapus)
+            stats_pemilik.omzet += totalAkhir;
+            stats_pemilik.transaksiCount += 1;
+            stats_pemilik.pelangganCount += 1;
+
+            // Simpan perubahan terupdate secara lokal
             localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
-            localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
             localStorage.setItem('cafe_db_transaksi', JSON.stringify(database_transaksi));
+            localStorage.setItem('cafe_stats_pemilik', JSON.stringify(stats_pemilik));
             
+            // Sinkronisasikan ke Firebase Cloud
             syncKeCloud();
 
+            // Cetak Struk Fisik / PDF
             cetakStrukKertas(dataTransaksiBaru, salinanKeranjang);
+            
+            // Bersihkan keranjang kasir
+            keranjangBelanja = [];
+            document.getElementById('k-pelanggan').value = '';
+            perbaruiKeranjangVisual();
             renderKasirMenu();
         }
 
         function cetakStrukKertas(tx, items) {
             const areaStruk = document.getElementById('area-cetak-struk');
-            
             let itemHtml = '';
             items.forEach(i => {
                 itemHtml += `
@@ -785,26 +843,18 @@
                 </div>
                 <div style="border-top:1px solid black; margin-top:15px; padding-top:5px; text-align:center; font-size:10px; font-style:italic">TERIMA KASIH ATAS KUNJUNGAN ANDA</div>
             `;
-
-            setTimeout(() => {
-                window.print();
-            }, 150);
+            setTimeout(() => { window.print(); }, 150);
         }
 
-
-        // ================= DASHBOARD PEMILIK =================
+        // ================= DASHBOARD PEMILIK CODE =================
         function renderPemilikDashboard() {
-            let totalOmzet = 0;
-            let totalPelanggan = database_transaksi.length; 
-            let totalTransaksi = database_transaksi.length;
-
-            database_transaksi.forEach(t => totalOmzet += t.total);
-
-            document.getElementById('p-omzet').innerText = 'Rp ' + totalOmzet.toLocaleString();
-            document.getElementById('p-transaksi').innerText = totalTransaksi;
-            document.getElementById('p-pelanggan').innerText = totalPelanggan;
+            // Tampilkan data dari statistik terproteksi
+            document.getElementById('p-omzet').innerText = 'Rp ' + stats_pemilik.omzet.toLocaleString();
+            document.getElementById('p-transaksi').innerText = stats_pemilik.transaksiCount;
+            document.getElementById('p-pelanggan').innerText = stats_pemilik.pelangganCount;
             document.getElementById('p-ledis-status').innerText = `${database_ledis.length} Terdaftar`;
 
+            // Render Monitor Kontrol Stok
             const containerStok = document.getElementById('p-stok-list');
             containerStok.innerHTML = '';
             database_produk.forEach(p => {
@@ -817,19 +867,36 @@
                 containerStok.insertAdjacentHTML('beforeend', html);
             });
 
+            // HITUNG KINERJA LEDIS LANGSUNG DARI REAL DATA LOG TRANSAKSI KASIR
             const containerTableLedis = document.getElementById('p-ledis-table');
             containerTableLedis.innerHTML = '';
+            
             database_ledis.forEach(l => {
-                const listProduk = l.itemsDipesan.length > 0 ? Array.from(new Set(l.itemsDipesan)).join(', ') : '<span class="text-gray-500 italic">Belum ada pesanan</span>';
+                let totalDampingi = 0;
+                let produkDipesanArr = [];
+
+                // Analisis seluruh transaksi kasir yang ada
+                database_transaksi.forEach(tx => {
+                    if (tx.ledis && tx.ledis.includes(l.nama)) {
+                        totalDampingi += 1;
+                        if (tx.detail && tx.detail !== '-') {
+                            produkDipesanArr.push(tx.detail);
+                        }
+                    }
+                });
+
+                const listProdukStr = produkDipesanArr.length > 0 ? Array.from(new Set(produkDipesanArr)).join(', ') : '<span class="text-gray-500 italic">Belum mendampingi pesanan</span>';
+                
                 const html = `
                     <tr class="hover:bg-gray-700/30">
                         <td class="py-2.5 px-3 font-bold text-pink-400">${l.nama}</td>
-                        <td class="py-2.5 px-3 text-center text-amber-400 font-black">${l.counter} Kali</td>
-                        <td class="py-2.5 px-3 text-xs text-gray-300 max-w-xs truncate">${listProduk}</td>
+                        <td class="py-2.5 px-3 text-center text-amber-400 font-black">${totalDampingi} Kali</td>
+                        <td class="py-2.5 px-3 text-xs text-gray-300 max-w-xs truncate">${listProdukStr}</td>
                     </tr>`;
                 containerTableLedis.insertAdjacentHTML('beforeend', html);
             });
 
+            // Render Log Tabel Riwayat Utama (Bawah)
             const containerLog = document.getElementById('p-transaksi-log');
             containerLog.innerHTML = '';
             if(database_transaksi.length === 0) {
@@ -849,27 +916,91 @@
             }
         }
 
-        function resetSemuaDataUsaha() {
-            if(confirm('Apakah Anda yakin ingin menghapus seluruh rekaman penjualan hari ini?')) {
+        // FUNGSI 1: Hanya menghapus isi Log Tabel Penjualan (Kartu Atas Tetap Utuh)
+        function resetHanyaLogHistoriPenjualan() {
+            if(confirm('Apakah Anda yakin ingin mengosongkan tabel Log Penjualan di bawah? (Data total omzet dan ringkasan atas akan tetap terjaga aman)')) {
                 database_transaksi = [];
-                database_ledis.forEach(l => { l.counter = 0; l.itemsDipesan = []; });
                 localStorage.setItem('cafe_db_transaksi', JSON.stringify([]));
-                localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
                 syncKeCloud();
                 renderPemilikDashboard();
+                alert('Tabel log riwayat penjualan telah dibersihkan.');
             }
         }
 
-        // Jalankan panel Manajemen secara otomatis saat startup
+        // FUNGSI 2: Tombol khusus untuk mereset ringkasan kartu statistik utama apabila dibutuhkan
+        function resetHanyaRingkasanKinerja() {
+            if(confirm('PERINGATAN: Apakah Anda yakin ingin mereset angka Omzet, Jumlah Transaksi, Pelanggan, dan Kinerja Ledis kembali ke angka 0?')) {
+                stats_pemilik = { omzet: 0, transaksiCount: 0, pelangganCount: 0 };
+                localStorage.setItem('cafe_stats_pemilik', JSON.stringify(stats_pemilik));
+                syncKeCloud();
+                renderPemilikDashboard();
+                alert('Seluruh ringkasan statistik pemilik berhasil direset dari nol.');
+            }
+        }
+
+        // ================= FITUR CETAK PDF KINERJA LEDIS =================
+        function cetakPDFKinerjaLedis() {
+            let barisLedisHtml = '';
+            
+            database_ledis.forEach(l => {
+                let totalDampingi = 0;
+                let produkDipesanArr = [];
+
+                database_transaksi.forEach(tx => {
+                    if (tx.ledis && tx.ledis.includes(l.nama)) {
+                        totalDampingi += 1;
+                        if (tx.detail && tx.detail !== '-') {
+                            produkDipesanArr.push(tx.detail);
+                        }
+                    }
+                });
+
+                const listProdukStr = produkDipesanArr.length > 0 ? Array.from(new Set(produkDipesanArr)).join(', ') : '-';
+
+                barisLedisHtml += `
+                    <tr>
+                        <td><b>${l.nama}</b></td>
+                        <td style="text-align:center;"><b>${totalDampingi} Kali</b></td>
+                        <td>${listProdukStr}</td>
+                    </tr>`;
+            });
+
+            const areaCetak = document.getElementById('area-cetak-struk');
+            areaCetak.innerHTML = `
+                <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid #000; padding-bottom:10px;">
+                    <h2 style="margin:0; font-size:18px;">CAFE MINI LEMPE</h2>
+                    <p style="margin:4px 0 0 0; font-size:12px;">LAPORAN MONITORING KINERJA PENDAMPING (LEDIS)</p>
+                </div>
+                <p style="font-size:11px;">Waktu Cetak Dokumen: ${new Date().toLocaleString('id-ID')}</p>
+                <table style="width:100%; border:1px solid #000; font-size:12px; margin-top:10px;">
+                    <thead>
+                        <tr style="background:#f2f2f2;">
+                            <th style="padding:8px; border:1px solid #000;">NAMA LEDIS</th>
+                            <th style="padding:8px; border:1px solid #000; text-align:center;">TOTAL DAMPINGI KONSUMEN</th>
+                            <th style="padding:8px; border:1px solid #000;">PRODUK TERKAIT YANG DIPESAN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${barisLedisHtml}
+                    </tbody>
+                </table>
+                <div style="margin-top:50px; text-align:right; font-size:12px;">
+                    <p>Sorong, ____________________</p>
+                    <br><br><br>
+                    <p><b>( Pemilik Usaha )</b></p>
+                </div>
+            `;
+            setTimeout(() => { window.print(); }, 150);
+        }
+
+        // Ambil data default pertama kali
         switchPanel('manajemen');
     </script>
 
-    <!-- LOGIKA CLOUD DATA STORAGE (FIREBASE) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi asli Firebase milik Anda
         const firebaseConfig = {  
             apiKey: "AIzaSyARzOByNIErzjbVLth1UIdFr5f5uKAiR4s",
             authDomain: "cavemini-app.firebaseapp.com",
@@ -880,70 +1011,49 @@
             measurementId: "G-MCC0T7LWLB"
         };
 
-        // Inisialisasi Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
+        const nodeRef = ref(database, 'aktivitas/data_cafe_lempe');
 
-        // Fungsi Global untuk Upload Data ke Cloud
         window.simpanAktivitasKeCloud = function(userId, dataAktivitas) {
             dataAktivitas.lastUpdated = new Date().toISOString();
             set(ref(database, 'aktivitas/' + userId), dataAktivitas)
-                .then(() => { 
-                    console.log("Sinkronisasi Cloud berhasil!"); 
-                })
-                .catch((error) => { 
-                    console.error("Gagal melakukan Sinkronisasi Cloud:", error); 
-                });
-        }
+                .then(() => { console.log("Realtime Cloud Berhasil Diupdate!"); })
+                .catch((err) => { console.error("Koneksi Firebase gagal:", err); });
+        };
 
-        // Fungsi Global untuk Mengunduh Data dari Cloud saat halaman pertama kali dimuat
-        window.muatAktivitasDariCloud = function(userId, callback) {
-            const dbRef = ref(database);
-            get(child(dbRef, `aktivitas/${userId}`))
-                .then((snapshot) => {
-                    if (snapshot.exists()) {
-                        callback(snapshot.val());
-                    } else {
-                        callback(null);
-                    }
-                })
-                .catch((error) => { 
-                    console.error("Gagal memuat data dari Cloud:", error); 
-                });
-        }
-
-        // Jalankan sinkronisasi data online begitu website dibuka di browser mana saja
-        window.addEventListener('DOMContentLoaded', () => {
-            window.muatAktivitasDariCloud("data_cafe_lempe", function(cloudData) {
-                if (cloudData) {
-                    console.log("Data cloud ditemukan, memperbarui database lokal...");
-                    if (cloudData.produk) {
-                        database_produk = cloudData.produk;
-                        localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
-                    }
-                    if (cloudData.ledis) {
-                        database_ledis = cloudData.ledis;
-                        localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
-                    }
-                    if (cloudData.transaksi) {
-                        database_transaksi = cloudData.transaksi;
-                        localStorage.setItem('cafe_db_transaksi', JSON.stringify(database_transaksi));
-                    }
-                    
-                    // Render ulang tampilan setelah data cloud berhasil ditarik
-                    if (currentActivePanel === 'manajemen') {
-                        renderManajemenInputs();
-                        renderManajemenTables();
-                    } else if (currentActivePanel === 'kasir') {
-                        renderKasirMenu();
-                        perbaruiKeranjangVisual();
-                    } else if (currentActivePanel === 'pemilik') {
-                        renderPemilikDashboard();
-                    }
-                } else {
-                    console.log("Belum ada data di cloud, menggunakan data default lokal.");
+        onValue(nodeRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const cloudData = snapshot.val();
+                console.log("Menerima pembaruan data real-time dari Cloud...");
+                
+                if (cloudData.produk) {
+                    database_produk = cloudData.produk;
+                    localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
                 }
-            });
+                if (cloudData.ledis) {
+                    database_ledis = cloudData.ledis;
+                    localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+                }
+                if (cloudData.transaksi) {
+                    database_transaksi = cloudData.transaksi;
+                    localStorage.setItem('cafe_db_transaksi', JSON.stringify(database_transaksi));
+                }
+                if (cloudData.stats) {
+                    stats_pemilik = cloudData.stats;
+                    localStorage.setItem('cafe_stats_pemilik', JSON.stringify(stats_pemilik));
+                }
+
+                // Sinkronisasi view aktif secara langsung
+                if (currentActivePanel === 'manajemen') {
+                    renderManajemenTables();
+                } else if (currentActivePanel === 'kasir') {
+                    renderKasirMenu();
+                    perbaruiKeranjangVisual();
+                } else if (currentActivePanel === 'pemilik') {
+                    renderPemilikDashboard();
+                }
+            }
         });
     </script>
 </body>
