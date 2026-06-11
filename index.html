@@ -31,7 +31,6 @@
                 justify-content: space-between !important;
             }
         }
-        
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans antialiased min-h-screen">
@@ -367,6 +366,17 @@
         let keranjangBelanja = [];
         let formUtamaSudahRender = false; 
 
+        // Fungsi pembantu untuk otomatis upload data ke Cloud Firebase
+        function syncKeCloud() {
+            if (window.simpanAktivitasKeCloud) {
+                window.simpanAktivitasKeCloud("data_cafe_lempe", {
+                    produk: database_produk,
+                    ledis: database_ledis,
+                    transaksi: database_transaksi
+                });
+            }
+        }
+
         function switchPanel(panel) {
             currentActivePanel = panel;
             document.getElementById('auth-section').classList.add('hidden');
@@ -495,6 +505,7 @@
                 if (item) item[dataType] = val;
             });
             localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
+            syncKeCloud();
             renderManajemenTables();
             alert('Perubahan data produk utama disimpan!');
         }
@@ -511,6 +522,7 @@
             
             database_produk.push({ id: newId, nama: nama, harga: harga, stok: stok, kategori: 'tambahan', icon: icon });
             localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
+            syncKeCloud();
             
             document.getElementById(`m-${tipe}-nama`).value = '';
             document.getElementById(`m-${tipe}-harga`).value = '';
@@ -527,6 +539,7 @@
             
             database_ledis.push({ nama: nama, harga: harga, status: 'ready', counter: 0, itemsDipesan: [] });
             localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+            syncKeCloud();
             
             document.getElementById('m-ledis-nama').value = '';
             document.getElementById('m-ledis-harga').value = '';
@@ -544,6 +557,7 @@
                 if(ledis) ledis.harga = hargaBaru;
             });
             localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+            syncKeCloud();
             alert('Perubahan tarif sewa seluruh ledis berhasil disimpan!');
         }
 
@@ -551,8 +565,7 @@
             if(confirm('Apakah Anda yakin ingin menghapus produk/item ini dari sistem?')) {
                 database_produk = database_produk.filter(p => p.id !== id);
                 localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
-                
-                // Hanya memperbarui tabel tanpa mereset ketikan form atas
+                syncKeCloud();
                 renderManajemenTables();
             }
         }
@@ -561,6 +574,7 @@
             if(confirm(`Apakah Anda yakin ingin menghapus data ledis ${nama}?`)) {
                 database_ledis = database_ledis.filter(l => l.nama !== nama);
                 localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+                syncKeCloud();
                 renderManajemenTables();
             }
         }
@@ -737,6 +751,8 @@
             localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
             localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
             localStorage.setItem('cafe_db_transaksi', JSON.stringify(database_transaksi));
+            
+            syncKeCloud();
 
             cetakStrukKertas(dataTransaksiBaru, salinanKeranjang);
             renderKasirMenu();
@@ -767,7 +783,7 @@
                     <span>TOTAL AKHIR:</span>
                     <span>Rp ${tx.total.toLocaleString()}</span>
                 </div>
-                <div style="border-top:1px solid black; margin-top:15px; padding-top:5px; text-align:center; font-size:10px; italic">TERIMA KASIH ATAS KUNJUNGAN ANDA</div>
+                <div style="border-top:1px solid black; margin-top:15px; padding-top:5px; text-align:center; font-size:10px; font-style:italic">TERIMA KASIH ATAS KUNJUNGAN ANDA</div>
             `;
 
             setTimeout(() => {
@@ -839,6 +855,7 @@
                 database_ledis.forEach(l => { l.counter = 0; l.itemsDipesan = []; });
                 localStorage.setItem('cafe_db_transaksi', JSON.stringify([]));
                 localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+                syncKeCloud();
                 renderPemilikDashboard();
             }
         }
@@ -846,6 +863,88 @@
         // Jalankan panel Manajemen secara otomatis saat startup
         switchPanel('manajemen');
     </script>
-    
+
+    <!-- LOGIKA CLOUD DATA STORAGE (FIREBASE) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi asli Firebase milik Anda
+        const firebaseConfig = {  
+            apiKey: "AIzaSyARzOByNIErzjbVLth1UIdFr5f5uKAiR4s",
+            authDomain: "cavemini-app.firebaseapp.com",
+            projectId: "cavemini-app",
+            storageBucket: "cavemini-app.firebasestorage.app",
+            messagingSenderId: "48653233353",
+            appId: "1:48653233353:web:d8836a3ac4d2000a38f118",
+            measurementId: "G-MCC0T7LWLB"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Fungsi Global untuk Upload Data ke Cloud
+        window.simpanAktivitasKeCloud = function(userId, dataAktivitas) {
+            dataAktivitas.lastUpdated = new Date().toISOString();
+            set(ref(database, 'aktivitas/' + userId), dataAktivitas)
+                .then(() => { 
+                    console.log("Sinkronisasi Cloud berhasil!"); 
+                })
+                .catch((error) => { 
+                    console.error("Gagal melakukan Sinkronisasi Cloud:", error); 
+                });
+        }
+
+        // Fungsi Global untuk Mengunduh Data dari Cloud saat halaman pertama kali dimuat
+        window.muatAktivitasDariCloud = function(userId, callback) {
+            const dbRef = ref(database);
+            get(child(dbRef, `aktivitas/${userId}`))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        callback(snapshot.val());
+                    } else {
+                        callback(null);
+                    }
+                })
+                .catch((error) => { 
+                    console.error("Gagal memuat data dari Cloud:", error); 
+                });
+        }
+
+        // Jalankan sinkronisasi data online begitu website dibuka di browser mana saja
+        window.addEventListener('DOMContentLoaded', () => {
+            window.muatAktivitasDariCloud("data_cafe_lempe", function(cloudData) {
+                if (cloudData) {
+                    console.log("Data cloud ditemukan, memperbarui database lokal...");
+                    if (cloudData.produk) {
+                        database_produk = cloudData.produk;
+                        localStorage.setItem('cafe_db_produk', JSON.stringify(database_produk));
+                    }
+                    if (cloudData.ledis) {
+                        database_ledis = cloudData.ledis;
+                        localStorage.setItem('cafe_db_ledis', JSON.stringify(database_ledis));
+                    }
+                    if (cloudData.transaksi) {
+                        database_transaksi = cloudData.transaksi;
+                        localStorage.setItem('cafe_db_transaksi', JSON.stringify(database_transaksi));
+                    }
+                    
+                    // Render ulang tampilan setelah data cloud berhasil ditarik
+                    if (currentActivePanel === 'manajemen') {
+                        renderManajemenInputs();
+                        renderManajemenTables();
+                    } else if (currentActivePanel === 'kasir') {
+                        renderKasirMenu();
+                        perbaruiKeranjangVisual();
+                    } else if (currentActivePanel === 'pemilik') {
+                        renderPemilikDashboard();
+                    }
+                } else {
+                    console.log("Belum ada data di cloud, menggunakan data default lokal.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
